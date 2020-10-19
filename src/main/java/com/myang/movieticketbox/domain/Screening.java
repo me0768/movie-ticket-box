@@ -9,17 +9,13 @@ import lombok.Getter;
 @Getter
 public class Screening {
     private long id;
-    private int dayNum;
+    private int sequenceNum;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
 
     private Movie movie;
 
-    private boolean isDiscountable() {
-        return true;
-    }
-
     public Price calculatePrice() {
-        return isDiscountable() ? movie.getDiscountedPrice() : movie.getFixedPrice();
+        return movie.isDiscountable(this) ? movie.getDiscountedPrice() : movie.getFixedPrice();
     }
 }
