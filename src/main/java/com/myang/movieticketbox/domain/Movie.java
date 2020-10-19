@@ -1,13 +1,26 @@
 package com.myang.movieticketbox.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.myang.movieticketbox.dto.Price;
 
-@Entity
+import lombok.Getter;
+
+@Getter
 public class Movie {
-    @Id
     private long id;
-
     private String title;
-    private int price;
+    private double fixedPrice;
+
+    private DiscountPolicy discountPolicy;
+    private DiscountCondition discountCondition;
+
+    public Price getFixedPrice() {
+        double fixedPrice = this.fixedPrice;
+        double discountedPrice = fixedPrice;
+        return new Price(fixedPrice, discountedPrice);
+    }
+    public Price getDiscountedPrice() {
+        double fixedPrice = this.fixedPrice;
+        double discountedPrice = fixedPrice - discountPolicy.getDiscountAmount();
+        return new Price(fixedPrice, discountedPrice);
+    }
 }
